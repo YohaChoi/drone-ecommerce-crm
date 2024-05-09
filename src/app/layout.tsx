@@ -7,8 +7,6 @@ import { Toaster } from "@/components/ui/toaster"
 
 const inter = Inter({ subsets: ["latin"] });
 
-
-
 export default function RootLayout({
   children
 }: {

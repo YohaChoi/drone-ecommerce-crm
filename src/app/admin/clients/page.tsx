@@ -2,12 +2,11 @@
 
 import { DataTable } from "@/components/DataTable";
 import { ColumnDef } from "@tanstack/react-table";
-import React from "react";
+import React, { useEffect, useState } from "react";
 import PageTitle from "@/components/PageTitle";
 import { Button } from "@/components/ui/button";
 import { useRouter } from "next/navigation";
-import { useQuery } from "convex/react";
-import { api } from "../../../../convex/_generated/api";
+import { getClients } from "@/lib/action/clients.actions";
 
 type Props = {};
 type Payment = {
@@ -50,9 +49,19 @@ const columns: ColumnDef<Payment>[] = [
   }
 ];
 
-export default function UsersPage({}: Props) {
+export default function ClientsPage({}: Props) {
+  const [clients, setClients] = useState<any>([])
+
+  useEffect(() => {
+    const clients = async () => {
+      const res = await getClients()
+      setClients(res)
+    }
+
+    clients()
+  },[])
+
   const router = useRouter();
-  const clients = useQuery(api.clients.getClients);
 
   const handleClick = () => {
     router.push('/admin/clients/create')

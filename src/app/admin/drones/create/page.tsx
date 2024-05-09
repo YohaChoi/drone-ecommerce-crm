@@ -12,54 +12,63 @@ import { Input } from "@/components/ui/input";
 import React from "react";
 import { useForm, FormProvider, SubmitHandler } from "react-hook-form";
 import { ArrowLeft } from "lucide-react";
-import { useRouter } from "next/navigation";
 import { zodResolver } from '@hookform/resolvers/zod';
 import { z } from "zod";
-import { createClient } from "@/lib/action/clients.actions";
-
+import { createProduct } from "@/lib/action/products.actions";
+import { useRouter } from "next/navigation";
 
 type FormValues = {
-  name: string;
-  phoneNumber: string;
-  email: string;
-  gender: string;
+    description: string;
+    imageUrl: string;
+    name: string;
+    price: string;
+    stock: string;
+    subtitle: string;
 };
 
 const schema = z.object({
-  name: z.string().min(1, "El nombre de usuario es obligatorio"),
-  phoneNumber: z.string().min(1, "El número de teléfono es obligatorio"),
-  email: z.string().email("El correo electrónico no es válido").min(1, "El correo electrónico es obligatorio"),
-  gender: z.string().min(1, "El género es obligatorio"),
+  name: z.string().min(1, "El nombre del dron es obligatorio"),
+  description: z.string().min(1, "El número de teléfono es obligatorio"),
+  price: z.string(),
+  stock: z.string(),
+  subtitle: z.string(),
+  imageUrl: z.string(),
 });
 
 function Page() {
+  const router = useRouter()
 
   const form = useForm<FormValues>({
     resolver: zodResolver(schema),
-  });
+  },
+);
 
-  const router = useRouter();
 
   const handleBackClick = () => {
-    router.back();
   };
 
   const create = async (data: FormValues) => {
-    await createClient({
-      email: data.email,
-      name: data.name,
-      gender: data.gender,
-      phoneNumber: data.phoneNumber
-    })
+    try {
+      const response = await createProduct({
+        name: data.name,
+        description: data.description,
+        imageUrl: data.imageUrl,
+        price: parseInt(data.price, 10),
+        stock: parseInt(data.stock, 10),
+        subtitle: data.subtitle,
+      })
 
       router.back()
-  }
+
+    } catch (error) {
+      console.error("Error creating product:", error);
+    }
+  };
 
   const onSubmit: SubmitHandler<FormValues> = (data) => {
-    console.log('here')
-    console.log(data);
+    console.log('data', data)
     create(data)
-  };
+  }
 
   return (
     <FormProvider {...form}>
@@ -71,7 +80,7 @@ function Page() {
       <div className=" flex flex-col w-full justify-center items-center">
         <div className="w-1/2 flex flex-col gap-y-5">
           <div>
-            <h1 className="font-semibold text-2xl my-10">Nuevo Cliente</h1>
+            <h1 className="font-semibold text-2xl my-10">Nuevo Dron</h1>
           </div>
           <form onSubmit={form.handleSubmit(onSubmit)} className="flex flex-col gap-y-10 ">
             <FormField
@@ -92,10 +101,10 @@ function Page() {
             />
             <FormField
               control={form.control}
-              name="phoneNumber"
+              name="subtitle"
               render={({ field }) => (
                 <FormItem>
-                  <FormLabel>Número de teléfono</FormLabel>
+                  <FormLabel>Subtitulo</FormLabel>
                   <FormControl>
                     <Input placeholder="número de teléfono" {...field} />
                   </FormControl>
@@ -105,12 +114,12 @@ function Page() {
             />
             <FormField
               control={form.control}
-              name="email"
+              name="description"
               render={({ field }) => (
                 <FormItem>
-                  <FormLabel>Correo electrónico</FormLabel>
+                  <FormLabel>Description</FormLabel>
                   <FormControl>
-                    <Input placeholder="correo electrónico" {...field} />
+                    <Input placeholder="Description" {...field} />
                   </FormControl>
                   <FormMessage />
                 </FormItem>
@@ -118,12 +127,38 @@ function Page() {
             />
             <FormField
               control={form.control}
-              name="gender"
+              name="imageUrl"
               render={({ field }) => (
                 <FormItem>
-                  <FormLabel>Género</FormLabel>
+                  <FormLabel>Image Url</FormLabel>
                   <FormControl>
-                    <Input placeholder="género" {...field} />
+                    <Input placeholder="url" {...field} />
+                  </FormControl>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
+            <FormField
+              control={form.control}
+              name="price"
+              render={({ field }) => (
+                <FormItem>
+                  <FormLabel>Precio</FormLabel>
+                  <FormControl>
+                    <Input placeholder="url" {...field} />
+                  </FormControl>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
+            <FormField
+              control={form.control}
+              name="stock"
+              render={({ field }) => (
+                <FormItem>
+                  <FormLabel>Stock</FormLabel>
+                  <FormControl>
+                    <Input placeholder="url" {...field} />
                   </FormControl>
                   <FormMessage />
                 </FormItem>

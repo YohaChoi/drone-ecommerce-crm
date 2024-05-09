@@ -73,13 +73,25 @@ export default function ProductView() {
               </div>
 
               <div className="mt-10">
+                <h3 className="text-sm font-medium text-gray-900">Stock</h3>
+
+                <div className="mt-4">
+                  <span className="text-gray-600">{product.stock} Unidades</span>
+                </div>
+              </div>
+
+              <div className="mt-10">
                 <h2 className="text-sm font-medium text-gray-900">Details</h2>
 
                 <div className="mt-4 space-y-6">
                   <p className="text-sm text-gray-600">{product.description}</p>
                 </div>
                 <div className="mt-4">
+                  {product.stock === 0 && (
+                    <span>No hay stock</span>
+                  )}
                   <Button
+                    disabled={product.stock === 0}
                     onClick={() => {
                       addItem({
                         id: product._id,
