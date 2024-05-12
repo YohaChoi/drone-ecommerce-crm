@@ -4,7 +4,6 @@ import { useQuery } from "convex/react";
 import { api } from "../../convex/_generated/api";
 
 export default function ProductsView() {
-  const products = useQuery(api.products.getProducts);
 
   return (
     <div className="bg-white">
@@ -14,7 +13,7 @@ export default function ProductsView() {
         </h2>
 
         <div className="mt-6 grid grid-cols-1 gap-x-6 gap-y-20 sm:grid-cols-2 lg:grid-cols-4 xl:gap-x-8">
-          {products &&
+          {/* {products &&
             products.map((product) => (
               <a href={`/product/${product._id}`} key={product._id}>
                 <div className="group relative transition-transform duration-300 ease-in-out hover:scale-105">
@@ -45,7 +44,7 @@ export default function ProductsView() {
                   </div>
                 </div>
               </a>
-            ))}
+            ))} */}
         </div>
       </div>
     </div>

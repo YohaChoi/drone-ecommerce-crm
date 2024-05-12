@@ -64,7 +64,7 @@ function HeaderEcommerce() {
               <ShoppingCart className='h-4 w-4' />
             </Button>
             <a
-              href="/admin/"
+              href="/login"
               className="text-sm font-semibold leading-6 text-gray-400 hover:text-gray-200"
             >
               Ir al CRM<span aria-hidden="true">&rarr;</span>

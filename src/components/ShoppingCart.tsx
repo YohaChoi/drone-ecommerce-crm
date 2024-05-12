@@ -4,15 +4,12 @@ import { XMarkIcon } from '@heroicons/react/24/outline'
 import useCartStore from '@/stores/cart.store'
 import { useMutation } from 'convex/react'
 import { api } from '../../convex/_generated/api'
-import { useAuth } from '@clerk/clerk-react'
 import Router from 'next/router'
 import { useRouter } from 'next/navigation'
 import { useToast } from "@/components/ui/use-toast"
 
 
 export default function ShoppingCart() {
-  const createOrder = useMutation(api.orders.create);
-  const auth = useAuth();
   const router = useRouter();
   const { isOpen, toggleCart, totalPrice, items, removeItem , clearCart} = useCartStore()
   const { toast } = useToast()
@@ -21,15 +18,15 @@ export default function ShoppingCart() {
   const handleCreateOrder = async () => {
     try {
 
-      items.map(async (p) => await createOrder({
-        byClientId: auth.userId ? auth.userId : "tuh",
-        clientName: "guest",
-        productId: p.id,
-        productName: p.name,
-        quantity: p.quantity,
-        status: 'COMPLETADO',
-        total: p.quantity * p.price,
-      }))
+      // items.map(async (p) => await createOrder({
+      //   byClientId: auth.userId ? auth.userId : "tuh",
+      //   clientName: "guest",
+      //   productId: p.id,
+      //   productName: p.name,
+      //   quantity: p.quantity,
+      //   status: 'COMPLETADO',
+      //   total: p.quantity * p.price,
+      // }))
 
       clearCart(),
       toggleCart(),

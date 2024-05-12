@@ -4,8 +4,6 @@ import ShoppingCart from '@/components/ShoppingCart'
 import HeroView from '@/views/HeroView'
 import ProductsView from '@/views/ProductsView'
 
-
-
 export default function Example() {
 
   return (

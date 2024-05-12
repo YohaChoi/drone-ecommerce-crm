@@ -15,15 +15,13 @@ import { ArrowLeft } from "lucide-react";
 import { useRouter } from "next/navigation";
 import { zodResolver } from '@hookform/resolvers/zod';
 import { z } from "zod";
-import { useMutation } from "convex/react";
-import { api } from "../../../../../convex/_generated/api";
+import { createSeller } from "@/lib/action/sellers.actions";
 
 type FormValues = {
   name: string;
   phoneNumber: string;
   email: string;
   gender: string;
-  commisionPercentage: number;
 };
 
 const schema = z.object({
@@ -31,11 +29,9 @@ const schema = z.object({
   phoneNumber: z.string().min(1, "El número de teléfono es obligatorio"),
   email: z.string().email("El correo electrónico no es válido").min(1, "El correo electrónico es obligatorio"),
   gender: z.string().min(1, "El género es obligatorio"),
-  commisionPercentage: z.number()
 });
 
 function Page() {
-  const createSeller= useMutation(api.sellers.createSeller)
 
   const form = useForm<FormValues>({
     resolver: zodResolver(schema),
@@ -48,18 +44,13 @@ function Page() {
   };
 
   const create = async (data: FormValues) => {
-    const res = await createSeller({
-      email: data.email,
+    await createSeller({
       name: data.name,
-      gender: data.gender,
       phoneNumber: data.phoneNumber,
-      commisionPercentage: data.commisionPercentage
+      email: data.email,
+      gender: data.gender
     })
-
-    if(res){
-      router.push('/admin/sellers')
-    }
-
+    router.push('/admin/sellers')
   }
 
   const onSubmit: SubmitHandler<FormValues> = (data) => {
@@ -131,19 +122,6 @@ function Page() {
                   <FormLabel>Género</FormLabel>
                   <FormControl>
                     <Input placeholder="género" {...field} />
-                  </FormControl>
-                  <FormMessage />
-                </FormItem>
-              )}
-            />
-            <FormField
-              control={form.control}
-              name="commisionPercentage"
-              render={({ field }) => (
-                <FormItem>
-                  <FormLabel>Porcentaje de Venta ( % comision)</FormLabel>
-                  <FormControl>
-                    <Input type={'number'} placeholder="x%" {...field} />
                   </FormControl>
                   <FormMessage />
                 </FormItem>

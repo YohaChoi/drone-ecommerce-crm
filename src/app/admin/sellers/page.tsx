@@ -9,12 +9,11 @@
 
 import { DataTable } from "@/components/DataTable";
 import { ColumnDef } from "@tanstack/react-table";
-import React from "react";
+import React, { useEffect, useState } from "react";
 import PageTitle from "@/components/PageTitle";
-import { useQuery } from "convex/react";
-import { api } from "../../../../convex/_generated/api";
 import { Button } from "@/components/ui/button";
 import { useRouter } from "next/navigation";
+import { getSellers } from "@/lib/action/sellers.actions";
 
 type Props = {};
 const columns: ColumnDef<any>[] = [
@@ -59,8 +58,18 @@ const columns: ColumnDef<any>[] = [
 
 
 export default function UsersPage({}: Props) {
-  const router = useRouter()
-  const sellers = useQuery(api.sellers.getSellers)  
+  const [sellers, setSellers] = useState<any>([])
+
+  useEffect(() => {
+    const clients = async () => {
+      const res = await getSellers()
+      setSellers(res)
+    }
+
+    clients()
+  },[])
+
+  const router = useRouter();
 
   const handleClick = () => {
     router.push('/admin/sellers/create')

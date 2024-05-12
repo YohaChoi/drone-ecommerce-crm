@@ -5,8 +5,6 @@ import { ColumnDef } from "@tanstack/react-table";
 import React from "react";
 import PageTitle from "@/components/PageTitle";
 import { cn } from "@/lib/utils";
-import { useQuery } from "convex/react";
-import { api } from "../../../../convex/_generated/api";
 
 type Props = {};
 type Payment = {
@@ -160,12 +158,11 @@ const data: Payment[] = [
 ];
 
 export default function OrdersPage({}: Props) {
-  const orders = useQuery(api.orders.getOrders)
 
   return (
     <div className="flex flex-col gap-5  w-full">
       <PageTitle title="Ordenes" />
-      <DataTable columns={columns} data={orders ?? []} />
+      {/* <DataTable columns={columns} data={orders ?? []} /> */}
     </div>
   );
 }

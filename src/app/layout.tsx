@@ -2,8 +2,8 @@
 import { Inter } from "next/font/google";
 import "./globals.css";
 import { cn } from "../lib/utils";
-import { Providers } from "./providers";
 import { Toaster } from "@/components/ui/toaster"
+import Providers  from './Providers'
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -23,13 +23,13 @@ export default function RootLayout({
           }
         )}
       >
-        <Toaster />
-        {/* main page */}
-        <div className="flex flex-col">
-          <Providers>
-            {children}
-          </Providers>
-        </div>
+          <Toaster />
+          {/* main page */}
+          <div className="flex flex-col">
+            <Providers>
+              {children}
+            </Providers>
+          </div>
       </body>
     </html>
   );

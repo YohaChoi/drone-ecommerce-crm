@@ -1,11 +1,9 @@
 "use client";
 
-import { SignInButton, UserButton, useSession } from "@clerk/nextjs";
 import Link from "next/link";
 import Image from "next/image";
-import { BellIcon, MessageCircleHeart } from "lucide-react";
-import { useQuery } from "convex/react";
-import { api } from "../../convex/_generated/api";
+import { signOut } from "next-auth/react";
+
 
 
 export function Header() {
@@ -29,7 +27,13 @@ export function Header() {
 
 
         <div className="flex gap-4 items-center">
-                  <UserButton showName={true} />
+        <button
+          onClick={() => signOut()}
+          className="bg-red-500 text-white font-bold px-6 py-2 mt-3"
+        >
+          Log Out
+        </button>
+
         </div>
       </div>
     </div>

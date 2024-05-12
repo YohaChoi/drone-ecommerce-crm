@@ -20,6 +20,8 @@
     "@radix-ui/react-tooltip": "^1.0.7",
     "@react-hook/window-size": "^3.1.1",
     "@tanstack/react-table": "^8.11.3",
+    "axios": "^1.6.8",
+    "bcryptjs": "^2.4.3",
     "class-variance-authority": "^0.7.0",
     "clsx": "^2.1.0",
     "convex": "^1.10.0",
@@ -27,6 +29,7 @@
     "lucide-react": "^0.306.0",
     "mongoose": "^8.3.4",
     "next": "14.0.4",
+    "next-auth": "^4.24.7",
     "react": "^18",
     "react-dom": "^18",
     "react-hook-form": "^7.51.1",
@@ -38,6 +41,7 @@
     "zustand": "^4.5.2"
   },
   "devDependencies": {
+    "@types/bcryptjs": "^2.4.6",
     "@types/node": "^20",
     "@types/react": "^18",
     "@types/react-dom": "^18",
