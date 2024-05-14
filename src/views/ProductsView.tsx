@@ -1,19 +1,30 @@
 "use client";
 
-import { useQuery } from "convex/react";
-import { api } from "../../convex/_generated/api";
+import { getProducts } from "@/lib/action/products.actions";
+import { useEffect, useState } from "react";
+
 
 export default function ProductsView() {
+  const [products, setProducts] = useState([])
+  
+  useEffect(() => {
+    const productsQuery = async () => {
+      const res = await getProducts()
+      setProducts(res)
+    }
+
+    productsQuery()
+  })
 
   return (
     <div className="bg-white">
       <div className="mx-auto max-w-2xl px-4 py-16 sm:px-6 sm:py-24 lg:max-w-7xl lg:px-8">
         <h2 className="text-2xl font-bold tracking-tight text-gray-900">
-          Nuestro Drones
+          Nuestros Drones
         </h2>
 
         <div className="mt-6 grid grid-cols-1 gap-x-6 gap-y-20 sm:grid-cols-2 lg:grid-cols-4 xl:gap-x-8">
-          {/* {products &&
+          {products &&
             products.map((product) => (
               <a href={`/product/${product._id}`} key={product._id}>
                 <div className="group relative transition-transform duration-300 ease-in-out hover:scale-105">
@@ -44,7 +55,7 @@ export default function ProductsView() {
                   </div>
                 </div>
               </a>
-            ))} */}
+            ))}
         </div>
       </div>
     </div>

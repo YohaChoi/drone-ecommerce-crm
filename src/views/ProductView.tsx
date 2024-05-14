@@ -1,13 +1,13 @@
 'use client'
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { motion } from "framer-motion"; // Import motion from Framer Motion
 import { StarIcon } from "@heroicons/react/20/solid";
 import { RadioGroup } from "@headlessui/react";
 import { Button } from "@/components/ui/button";
-import { useQuery } from "convex/react";
-import { api } from "../../convex/_generated/api";
+
 import { useParams } from "next/navigation";
 import useCartStore from "@/stores/cart.store";
+import { getProduct } from "@/lib/action/products.actions";
 
 function classNames(...classes) {
   return classes.filter(Boolean).join(" ");
@@ -15,10 +15,17 @@ function classNames(...classes) {
 
 export default function ProductView() {
   const { addItem, toggleCart } = useCartStore();
+  const [product, setProduct] = useState([]);
   const params = useParams<{productId: string}>();
-  const product = useQuery(api.products.getProduct, {
-    productId: params.productId
-  });
+
+  useEffect(() => {
+    const productQuery = async () => {
+      const product = await getProduct(params.productId)
+      setProduct(product)
+    }
+
+    productQuery()
+  },[])
   
   const [selectedColor, setSelectedColor] = useState(product?.colors ? product.colors[0] : null);
   const [selectedSize, setSelectedSize] = useState(product?.sizes ? product.sizes[2] : null);
@@ -33,7 +40,8 @@ export default function ProductView() {
       animate={{ opacity: 1 }} // Animate to full opacity
       className="bg-white mt-24"
     >
-      <div className="py-20">
+      {product && (
+        <div className="py-20">
         <div className="flex flex-row mx-20 items-center px-20">
           {/* Image gallery */}
           <div className="sm:overflow-hidden sm:rounded-lg">
@@ -110,6 +118,7 @@ export default function ProductView() {
           </div>
         </div>
       </div>
+      )}
     </motion.div>
   );
 }
